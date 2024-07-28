@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:expense_tracker/widgets/new_expense/action_buttons.dart';
+import 'package:expense_tracker/widgets/new_expense/category_dropdown.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:expense_tracker/models/expense.dart';
@@ -19,6 +21,12 @@ class _NewExpenseState extends State<NewExpense> {
   final _amountController = TextEditingController();
   DateTime? _selectedDate;
   Category _selectedCategory = Category.leisure;
+
+  void _changeCategory(Category category) {
+    setState(() {
+      _selectedCategory = category;
+    });
+  }
 
   void _presentDatePicker() async {
     final now = DateTime.now();
@@ -151,27 +159,9 @@ class _NewExpenseState extends State<NewExpense> {
               if (width >= 600)
                 Row(
                   children: [
-                    DropdownButton(
-                      value: _selectedCategory,
-                      items: Category.values
-                          .map(
-                            (category) => DropdownMenuItem(
-                              value: category,
-                              child: Text(
-                                category.name.toUpperCase(),
-                              ),
-                            ),
-                          )
-                          .toList(),
-                      onChanged: (value) {
-                        if (value == null) {
-                          return;
-                        }
-
-                        setState(() {
-                          _selectedCategory = value;
-                        });
-                      },
+                    CategoryDropdown(
+                      selectedCategory: _selectedCategory,
+                      onSelectCategory: _changeCategory,
                     ),
                     const SizedBox(width: 24),
                     Expanded(
@@ -231,52 +221,18 @@ class _NewExpenseState extends State<NewExpense> {
                 Row(
                   children: [
                     const Spacer(),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('Cancel')),
-                    ElevatedButton(
-                      onPressed: _submitExpenseData,
-                      child: const Text('Save Expense'),
-                    ),
+                    ActionButtons(submitExpenseData: _submitExpenseData),
                   ],
                 )
               else
                 Row(
                   children: [
-                    DropdownButton(
-                      value: _selectedCategory,
-                      items: Category.values
-                          .map(
-                            (category) => DropdownMenuItem(
-                              value: category,
-                              child: Text(
-                                category.name.toUpperCase(),
-                              ),
-                            ),
-                          )
-                          .toList(),
-                      onChanged: (value) {
-                        if (value == null) {
-                          return;
-                        }
-
-                        setState(() {
-                          _selectedCategory = value;
-                        });
-                      },
+                    CategoryDropdown(
+                      selectedCategory: _selectedCategory,
+                      onSelectCategory: _changeCategory,
                     ),
                     const Spacer(),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('Cancel')),
-                    ElevatedButton(
-                      onPressed: _submitExpenseData,
-                      child: const Text('Save Expense'),
-                    ),
+                    ActionButtons(submitExpenseData: _submitExpenseData),
                   ],
                 ),
             ],
