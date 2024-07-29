@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:expense_tracker/widgets/new_expense/action_buttons.dart';
+import 'package:expense_tracker/widgets/new_expense/amount_field.dart';
 import 'package:expense_tracker/widgets/new_expense/category_dropdown.dart';
 import 'package:expense_tracker/widgets/new_expense/date_picker.dart';
+import 'package:expense_tracker/widgets/new_expense/title_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:expense_tracker/models/expense.dart';
@@ -128,35 +130,14 @@ class _NewExpenseState extends State<NewExpense> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
-                      child: TextField(
-                        controller: _titleController,
-                        maxLength: 50,
-                        decoration: const InputDecoration(
-                          label: Text('Title'),
-                        ),
-                      ),
+                      child: TitleField(titleController: _titleController),
                     ),
                     const SizedBox(width: 24),
-                    Expanded(
-                      child: TextField(
-                        controller: _amountController,
-                        keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                          suffixText: ' CZK',
-                          label: Text('Amount'),
-                        ),
-                      ),
-                    ),
+                    AmountField(amountController: _amountController),
                   ],
                 )
               else
-                TextField(
-                  controller: _titleController,
-                  maxLength: 50,
-                  decoration: const InputDecoration(
-                    label: Text('Title'),
-                  ),
-                ),
+                TitleField(titleController: _titleController),
               if (width >= 600)
                 Row(
                   children: [
@@ -174,16 +155,7 @@ class _NewExpenseState extends State<NewExpense> {
               else
                 Row(
                   children: [
-                    Expanded(
-                      child: TextField(
-                        controller: _amountController,
-                        keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                          suffixText: ' CZK',
-                          label: Text('Amount'),
-                        ),
-                      ),
-                    ),
+                    AmountField(amountController: _amountController),
                     const SizedBox(width: 16),
                     DatePicker(
                       selectedDate: _selectedDate,
